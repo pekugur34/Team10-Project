@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import Answers.GreetingsAnswers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -72,9 +73,18 @@ public class GetUserServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
+            String answer=request.getParameter("answer");
+            String[] greetingsQuestions = Questions.GreetingsQuestions.getGreetings();
+
+
+
+
+  
+                            answer = GreetingsAnswers.greet("selam");
+
+            response.setContentType("text/plain");
+            response.getWriter().write(answer);
     }
 
     /**

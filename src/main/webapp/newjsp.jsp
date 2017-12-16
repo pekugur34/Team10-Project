@@ -4,6 +4,8 @@
     Author     : LordAvalon
 --%>
 
+<%@page import="Answers.GreetingsAnswers"%>
+<%@page import="java.util.Arrays"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 
@@ -863,7 +865,19 @@
                             </div>
                         </div>
                     </div>
-                                <% String answer="This is an answer";%>
+
+                    <%
+                        String[] greetingsQuestions = Questions.GreetingsQuestions.getGreetings();
+                        String answer = "";
+                        String question = "";
+
+                        question = request.getParameter("txtMessage").toString();
+                        if (Arrays.asList(greetingsQuestions).contains(question)) {
+                            answer = GreetingsAnswers.greet(question);
+                        }
+
+
+                    %>    
                 </div>
                 <script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script><script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
                 <script >$(".messages").animate({scrollTop: $(document).height()}, "fast");
@@ -901,6 +915,8 @@
                 $("#status-options").removeClass("active");
             });
 
+
+
             function newMessage() {
                 message = $(".message-input input").val();
                 if ($.trim(message) == '') {
@@ -912,15 +928,16 @@
                 $(".messages").animate({scrollTop: $(document).height()}, "fast");
             }
             ;
-            
-            function newAnswer(){
-                answer='<%=answer %>';        
+
+            function newAnswer() {
+                var answer = '<%=answer%>';
                 $('<li class="replies"><img src="http://emilcarlsson.se/assets/mikeross.png" alt="" /><p>' + answer + '</p></li>').appendTo($('.messages ul'));
                 $('.message-input input').val(null);
                 $('.contact.active .preview').html('<span>You: </span>' + answer);
                 $(".messages").animate({scrollTop: $(document).height()}, "fast");
-};
-            
+            }
+            ;
+
             $('.submit').click(function () {
                 newMessage();
                 newAnswer();
@@ -939,16 +956,32 @@
                     src="https://code.jquery.com/jquery-3.2.1.min.js"
                     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
                     crossorigin="anonymous">
-            $(document).ready(function () {
+          /*  $(document).ready(function () {
                 $('#txtMessage').blur(function (event) {
-                    var message = $('#txtMesage').val();
+                    var message = $('#txtMessage').val();
                     $.get('GetUserServlet', {
-                        meesage: message
+                        message: message
                     }, function (responseText) {
                         $('#ajaxGetUserServletResponse').text(responseText);
                     });
                 });
+            });*/
+
+            $(document).ready(function () {
+                $('#txtMessage').blur(function () {
+                    $.ajax({
+                        url: 'GetUserServlet',
+                        data: {
+                            txtMessage: $('#txtMessage').val()
+                        },
+                        success: function (responseText) {
+                            $('#ajaxGetUserServletResponse').text(responseText);
+                            window.history.pushState("answer", "Title", "/newjsp.jsp?answer="+'<%=answer%>');
+                        }
+                    });
+                });
             });
+
                 </script>
-     
+
                 </body></html>
