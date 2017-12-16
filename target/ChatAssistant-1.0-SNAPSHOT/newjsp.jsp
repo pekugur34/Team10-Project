@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+
 <!DOCTYPE html><html class=''>
     <head><script src='//production-assets.codepen.io/assets/editor/live/console_runner-079c09a0e3b9ff743e39ee2d5637b9216b3545af0de366d4b9aad9dc87e26bfd.js'></script><script src='//production-assets.codepen.io/assets/editor/live/events_runner-73716630c22bbc8cff4bd0f07b135f00a0bdc5d14629260c3ec49e5606f98fdd.js'></script><script src='//production-assets.codepen.io/assets/editor/live/css_live_reload_init-2c0dc5167d60a5af3ee189d570b1835129687ea2a61bee3513dee3a50c115a77.js'></script><meta charset='UTF-8'><meta name="robots" content="noindex"><link rel="shortcut icon" type="image/x-icon" href="//production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" /><link rel="mask-icon" type="" href="//production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" /><link rel="canonical" href="https://codepen.io/emilcarlsson/pen/ZOQZaV?limit=all&page=74&q=contact+" />
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
@@ -848,30 +849,22 @@
                                 <i class="fa fa-instagram" aria-hidden="true"></i>
                             </div>
                         </div>
-
-                        <div class="messages">
-                            <ul
-                                <% if (request.getParameter("btnSend") != null) {%>    
-                                <li class="replies"><
-                                    <!--<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" /> -->
-                                    <p>Wrong. You take the gun, or you pull out a bigger one. Or, you call their bluff. Or, you do any one of a hundred and forty six other things.</p>
-                                </li>
-                                <%}%>
+                        <div id="ajaxGetUserServletResponse" class="messages">
+                            <ul>
                             </ul>
                         </div>
-                            <form method="get" action="newjsp.jsp">
-                            <div class="message-input">
-                                <div class="wrap">
-                                    <input type="text" name="txtUserMessage" id="txtUserMessage" placeholder="Write your message..." /> <!-- Here we have user message -->
+                        <div class="message-input">
+                            <div class="wrap">
+                                <form method="get" >
+                                    <input type="text" id="txtMessage" name="txtMessage" placeholder="Write your message..." />
                                     <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
-                                    <button class="submit" name="btnSend" id="btnSend" values="btnSend"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-                                </div>
+                                    <button type="submit" id="btnOk" name="btnOk" class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                                </form>
                             </div>
-                        </form>
-
+                        </div>
                     </div>
+                                <% String answer="This is an answer";%>
                 </div>
-
                 <script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script><script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
                 <script >$(".messages").animate({scrollTop: $(document).height()}, "fast");
 
@@ -919,17 +912,43 @@
                 $(".messages").animate({scrollTop: $(document).height()}, "fast");
             }
             ;
-
+            
+            function newAnswer(){
+                answer='<%=answer %>';        
+                $('<li class="replies"><img src="http://emilcarlsson.se/assets/mikeross.png" alt="" /><p>' + answer + '</p></li>').appendTo($('.messages ul'));
+                $('.message-input input').val(null);
+                $('.contact.active .preview').html('<span>You: </span>' + answer);
+                $(".messages").animate({scrollTop: $(document).height()}, "fast");
+};
+            
             $('.submit').click(function () {
                 newMessage();
+                newAnswer();
             });
 
             $(window).on('keydown', function (e) {
                 if (e.which == 13) {
                     newMessage();
+                    newAnswer();
                     return false;
                 }
             });
             //# sourceURL=pen.js
                 </script>
+                <script
+                    src="https://code.jquery.com/jquery-3.2.1.min.js"
+                    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+                    crossorigin="anonymous">
+            $(document).ready(function () {
+                $('#txtMessage').blur(function (event) {
+                    var message = $('#txtMesage').val();
+                    $.get('GetUserServlet', {
+                        meesage: message
+                    }, function (responseText) {
+                        $('#ajaxGetUserServletResponse').text(responseText);
+                    });
+                });
+            });
+                </script>
+     
                 </body></html>
