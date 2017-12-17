@@ -81,7 +81,7 @@ public class GetUserServlet extends HttpServlet {
 
 
   
-                            answer = GreetingsAnswers.greet("selam");
+                            answer = GreetingsAnswers.greet();
 
             response.setContentType("text/plain");
             response.getWriter().write(answer);

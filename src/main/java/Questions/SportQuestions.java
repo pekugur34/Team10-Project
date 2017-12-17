@@ -8,6 +8,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -25,11 +26,11 @@ import General.DomainQuestions;
 public class SportQuestions extends Domains{
     
 	//Methods
-	public static String getJSON() throws Exception{
+	public static String[] getJSON() throws Exception{
 		String URI=getSportUri();
 		
 		//
-		String ss="";
+		
 		
 		Client client=ClientBuilder.newClient();
 		WebTarget target=client.target(URI);
@@ -51,18 +52,25 @@ public class SportQuestions extends Domains{
 		
 		JSONArray filesArr=(JSONArray)files.get("Files");//Files part is an array
 		
-		
-		for(int i=0;i<5;i++) {
+		String[] lstEverything=new String[15];
+                
+		for(int i=0;i<15;i++) {
 			JSONObject temp=(JSONObject) pageNews.get(i);
 			JSONObject tmp=(JSONObject) filesArr.get(i);//Url of image
 			
-			System.out.println(temp.get("Title")+""+temp.get("Url"));
-			System.out.println(tmp.get("FileUrl"));
+                        lstEverything[i]=temp.get("Title").toString();
+                        lstEverything[i+1]=temp.get("Url").toString();
+                        lstEverything[i+2]=tmp.get("FileUrl").toString();
+                        
+                        
+			//System.out.println(temp.get("Title")+""+temp.get("Url"));
+			//System.out.println(tmp.get("FileUrl"));
 			
 		}
 		
+                
 
-		return "";
+		return lstEverything;
 	}
 	
 	public static void main(String[] args) {

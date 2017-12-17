@@ -66,7 +66,7 @@ public final class SearchQuery extends Thread {
 		return searchURLs;
 	}*/
     public static ArrayList<String> getURLs(String question) {//Better.Takes url from 3 websites.
-        int resultNumber = 3;
+        int resultNumber = 4;
         String query = SEARCH + "?q=" + question + "&num=" + resultNumber;
         //
         ArrayList<String> lstURLs = new ArrayList<String>();
@@ -81,13 +81,13 @@ public final class SearchQuery extends Thread {
                 url = el.attr("href").substring(7, el.attr("href").indexOf("&"));
                 String tempURL = decode(url);
                 // String tempURL=URLDecoder.decode(url, "UTF-8");
-                if(!tempURL.contains("wikipedia"))
-                lstURLs.add(tempURL);
-                if(i==3)
-                    break;
+                if (!tempURL.contains("wikipedia")) {
+                    lstURLs.add(tempURL);
+                }
+                
                 i++;
             }
-            
+
         } catch (Exception e) {
             // TODO: handle exception
 
@@ -128,51 +128,48 @@ public final class SearchQuery extends Thread {
         ArrayList<String> contents = new ArrayList<String>();
 
         String text = "";
-
         for (int i = 0; i < URLsToUse.size(); i++) {
-            
+
             try {
 
-                String html = Jsoup.connect(URLsToUse.get(i)).userAgent("Mozilla/5.0").timeout(5000).get().text();
-
-                Document doc = Jsoup.parse(html);
-
-                Elements paragraphs=doc.select("body");
+                String html = Jsoup.connect(URLsToUse.get(i)).userAgent("Mozilla/5.0").timeout(5000).get().html();
                 
-                for(Element p : paragraphs){
-                    text+=p.html();
-                }
- 
-            }catch(Exception ex){
-                continue;
+                Document doc = Jsoup.parse(html);
+                text+=doc.select("body p").text();
+
+            } catch (Exception ex) {
+                return null;
             }
             continue;
         }
-        
-        String []splitted=text.split("\\.");
 
         return text;
 
     }
-    
-    public static String selectBestParagraph(String question) throws IOException{
-        
-        
-        
-        
-        
+
+    public static String p(String question) {
+        String html = "<p>An <a href='http://example.com/'><b>example</b></a> link.</p><br>sadsad</br><p>Second p</p>";
+        Document doc = Jsoup.parse(html);
+        String p = doc.select("body p").text();
+        //String text = p.text(); // "An example link"
+
+        return p;
+    }
+
+    public static String selectBestParagraph(String question) throws IOException {
+
         return "";
     }
 
     public static ArrayList<String> getParagraphsFromPages(String question) throws Exception {
         ArrayList<String> URLsToUse = getURLs(question);
         ArrayList<String> contents = new ArrayList<String>();
-        Proxy proxy=new Proxy(Proxy.Type.HTTP, new InetSocketAddress("213.74.252.171",8080));
+
         for (String url : URLsToUse) {
             URL page = new URL(url);
             StringBuffer text = new StringBuffer();
-            URLConnection connection = (URLConnection) page.openConnection(proxy);
-
+            URLConnection connection = (URLConnection) page.openConnection();
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0");
             connection.connect();
 
             InputStreamReader in = new InputStreamReader((InputStream) connection.getContent());
@@ -197,8 +194,8 @@ public final class SearchQuery extends Thread {
     }
 
 
-    /*public static String getDataFromPages(String question) throws IOException {
-		String[] URLs=searchQuery(question);
+    /* public static String getDataFromPages(String question) throws IOException {
+		String[] URLs=getURLs(question);
 		String useThisURL="";
 		for(String url:URLs) {
 			if(url.contains("tr.wikipedia.org")) {

@@ -19,7 +19,7 @@ public class GreetingsAnswers {
     private static String[] questionGreetings = GreetingsQuestions.getGreetings();
 
     //Methods
-    public static String greet(String question) {
+    public static String greet() {
 
         int index = ThreadLocalRandom.current().nextInt(0, greetings.length);
 
