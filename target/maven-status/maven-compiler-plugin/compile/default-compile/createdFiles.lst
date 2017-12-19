@@ -10,7 +10,6 @@ Process\ScoringSentences.class
 Process\RegularExpression.class
 Process\ScoringSentences$1.class
 Test\Test.class
-Questions\PoliticalQuestions.class
 Domains\Domains.class
 General\QuestionSpecification.class
 Questions\GreetingsQuestions.class

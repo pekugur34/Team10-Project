@@ -1,6 +1,6 @@
 package General;
 
-import Questions.PoliticalQuestions;
+import Questions.LastNewsQuestions;
 
 /*
  * Author:Uğur Pek
@@ -9,7 +9,7 @@ import Questions.PoliticalQuestions;
  * */
 
 public class QuestionProvider {//Question Types will be provided by this class...
-	private PoliticalQuestions p;
+	private LastNewsQuestions p;
 	
 	
 	

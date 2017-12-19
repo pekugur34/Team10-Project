@@ -1,6 +1,13 @@
 package General;
 
 
+
+/*
+ * Author:Uğur Pek
+ * Created Date:17.11.2017
+ * 
+ * */
+
 import zemberek.core.logging.Log;
 import zemberek.morphology.ambiguity.Z3MarkovModelDisambiguator;
 import zemberek.morphology.analysis.SentenceAnalysis;
