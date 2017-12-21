@@ -42,7 +42,7 @@ public class LastNewsQuestions extends Domains.Domains{
 		
 		ArrayList<String> lstEverything=new ArrayList<String>();
                 
-		for(int i=0;i<15;i++) {
+		for(int i=0;i<20;i++) {
 			JSONObject temp=(JSONObject) pageNews.get(i);
 			JSONObject tmp=(JSONObject) filesArr.get(0);//Url of image
 			

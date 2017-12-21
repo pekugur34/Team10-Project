@@ -19,10 +19,19 @@
 
     <form>
         Enter Your Name: <input type="text" id="userName" />
+        <select name="mySelect" class="form-control">
+            <option value="a">A</option>
+            <option value="b">B</option>
+            <option value="c">C</option>
+        </select>
+        <button type="submit" id="btn" name="btn" >Buton</button>
     </form>
     <br>
     <br>
-
+    <%if(request.getParameter("btn")!=null && request.getParameter("mySelect").equals("a"))
+    out.print("Hey");
+    %>
+    
     <strong>Ajax Response</strong>:
 <div id="ajaxGetUserServletResponse"></div>
 </body>

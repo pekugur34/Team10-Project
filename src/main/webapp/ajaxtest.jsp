@@ -46,7 +46,7 @@
 
     <%
 
-        /* String answer = Search.SearchQuery.getP("Michael Jackson ne zaman doğdu?");
+       /* String answer = Search.SearchQuery.getP("Michael Jackson ne zaman doğdu?");
         String[] split = answer.split("\\.");
 
         ArrayList<String> lstFinal = new ArrayList<String>();
@@ -58,8 +58,8 @@
                 lstFinal.add(split[i]);
             }
         }
-        out.print(lstFinal.get(0));*/
-
+        out.print(lstFinal.get(0));
+*/
     %>
 
     <form name="frm" method="post" action="ajaxtest.jsp">
@@ -181,5 +181,6 @@
 
 
     </form>
+        
 </body>
 </html>
