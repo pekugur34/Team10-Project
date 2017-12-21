@@ -4,6 +4,7 @@
     Author     : LordAvalon
 --%>
 
+<%@page import="java.util.Collections"%>
 <%@page import="Process.Score"%>
 <%@page import="Answers.GreetingsAnswers"%>
 <%@page import="Questions.SportQuestions"%>
@@ -102,7 +103,7 @@
     <div class="col-md-6 col-md-offset-3">     
         <div class="row">
             <div id="logo" class="text-center">
-                <h1><%=selectedDomain%></h1><p>IKU</p>
+                <h1><%=selectedDomain%></h1><p><b>IKU</b></p>
             </div>
             <form role="form" id="form-buscar" action="csstest.jsp" method="post">
                 <div class="form-group">
@@ -110,7 +111,7 @@
                         <input id="1" class="form-control" type="text" id="txtSearch" name="txtSearch" placeholder="Birşeyler sorun ve arayın..." required/>
                         <span class="input-group-btn">
                             <button class="btn btn-success" id="btnSearch" name="btnSearch" type="submit">
-                                <i class="glyphicon glyphicon-search" aria-hidden="true"></i> Sor
+                                <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i> Sor
                             </button>
                         </span>
                     </div>
@@ -121,32 +122,43 @@
 
 
         <% if (request.getParameter("btnSearch") != null && flagGeneralCulture) {
+            ArrayList<String> lstFinal = new ArrayList<String>();
+            try{
                 String question = request.getParameter("txtSearch");
                 String answer = Search.SearchQuery.getP(question);
                 String[] split = answer.split("\\.");
 
-                ArrayList<String> lstFinal = new ArrayList<String>();
+                
 
                 float[] scores = new float[split.length];
 
                 for (int i = 0; i < scores.length; i++) {
-                    if (Score.score(question, split[i]) > 2) {
+                    if (Score.score(question, split[i]) > 1.50) {
                         lstFinal.add(split[i]);
                     }
+
                 }
-                out.print(lstFinal.get(0));
-        %>
+                Collections.sort(lstFinal);
+                Collections.reverse(lstFinal);
+            }catch(Exception ex){
+                out.print("Bu soruya bir cevap bulamadım :(");
+            }
+            
+                for (int i = 0; i < lstFinal.size(); i++) {%>
+                <div class="text-center"><i><b><%=lstFinal.get(i)%></b></i></div>
+        <hr/>
+        <%}%>
 
         <%}%>
 
         <% if (request.getParameter("btnSearch") != null) {
                 if (Arrays.asList(greetingQuestions).contains(request.getParameter("txtSearch"))) {%><!--If it is a greeting question -->
-        <div class="text-center"><%=GreetingsAnswers.greet()%></div>
+        <div class="text-center"><span class="label label-success"><%=GreetingsAnswers.greet()%></span></div>
         <%}%>  
         <%}%>
 
         <% if (request.getParameter("btnSearch") != null && Arrays.asList(anotherQuestions).contains(request.getParameter("txtSearch").toString())) {%>
-        <div><%=Answers.AnotherTypeAnswers.giveAnswer()%></div>
+        <div class="text-center"><span class="label label-success"><%=Answers.AnotherTypeAnswers.giveAnswer()%></span></div>
         <%}%>
 
         <% if (request.getParameter("btnSearch") != null && flagSport) {

@@ -22,7 +22,7 @@ public class AnotherTypeAnswers {
     public static String giveAnswer(){
         int index=ThreadLocalRandom.current().nextInt(0,answers.length);
         
-        return answers[index]+"sadas";
+        return answers[index];
     }
     
     @Override

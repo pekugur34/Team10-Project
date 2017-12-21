@@ -65,8 +65,8 @@ public final class SearchQuery extends Thread {
 		
 		return searchURLs;
 	}*/
-    public static ArrayList<String> getURLs(String question) {//Better.Takes url from 3 websites.
-        int resultNumber = 4;
+    public static ArrayList<String> getURLs(String question) {//Better.
+        int resultNumber = 6;
         String query = SEARCH + "?q=" + question + "&num=" + resultNumber;
         //
         ArrayList<String> lstURLs = new ArrayList<String>();
